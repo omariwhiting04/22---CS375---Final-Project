@@ -1,0 +1,4 @@
+[2025-11-27 16:45:20] Client 4 joined group 1
+[2025-11-27 16:53:24] Group 1: Client 1 sent message: I hate koko 
+[2025-11-27 16:53:35] Cache MISS for group 1
+[2025-11-27 16:53:35] Sent 1 history messages to client FD 4
