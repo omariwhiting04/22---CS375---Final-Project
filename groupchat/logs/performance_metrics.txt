@@ -1,0 +1,9 @@
+==== PERFORMANCE REPORT ====
+Total Jobs: 6
+Average Burst Time: 7
+Scheduler Dispatches: 6
+Messages Sent: 2
+Cache Hits: 0
+Cache Misses: 2
+Cache Hit Ratio: 0
+============================

@@ -2,3 +2,41 @@
 [2025-11-27 16:53:24] Group 1: Client 1 sent message: I hate koko 
 [2025-11-27 16:53:35] Cache MISS for group 1
 [2025-11-27 16:53:35] Sent 1 history messages to client FD 4
+[2025-11-28 20:55:43] Client 5 joined group 1
+[2025-11-28 20:56:00] Group 1: Client 1 sent message: I hate koko
+[2025-11-28 20:56:20] Client 5 joined group 2
+[2025-11-28 20:56:30] Group 1: Client 1 sent message: i koko??
+[2025-11-28 20:57:18] Cache MISS for group 2
+[2025-11-28 20:57:18] Sent 0 history messages to client FD 5
+[2025-11-28 20:58:26] Client FD 5 disconnected.
+[2025-11-28 21:10:11] Client FD 4 disconnected.
+[2025-11-28 21:23:26] Client FD 4 disconnected.
+[2025-11-28 21:23:34] Scheduler executing job for client FD 5 (burst 4)
+[2025-11-28 21:23:34] Client 5 joined group 1
+[2025-11-28 21:23:42] Scheduler executing job for client FD 5 (burst 4)
+[2025-11-28 21:23:42] Group 1: Client 1 sent message: koko
+[2025-11-28 21:23:52] Scheduler executing job for client FD 5 (burst 6)
+[2025-11-28 21:23:52] Cache MISS for group 1
+[2025-11-28 21:23:52] Sent 1 history messages to client FD 5
+[2025-11-28 21:24:00] Scheduler executing job for client FD 5 (burst 9)
+[2025-11-28 21:24:00] Client 5 joined group 2
+[2025-11-28 21:24:10] Scheduler executing job for client FD 5 (burst 5)
+[2025-11-28 21:24:10] Group 1: Client 1 sent message: koko2
+[2025-11-28 21:24:20] Scheduler executing job for client FD 5 (burst 10)
+[2025-11-28 21:24:20] Cache MISS for group 2
+[2025-11-28 21:24:20] Sent 0 history messages to client FD 5
+[2025-11-28 21:24:32] Client FD 5 disconnected.
+[2025-11-28 21:34:43] Scheduler executing job for client FD 4 (burst 8)
+[2025-11-28 21:34:43] Client 4 joined group 1
+[2025-11-28 21:34:51] Scheduler executing job for client FD 4 (burst 10)
+[2025-11-28 21:34:51] Group 1: Client 1 sent message: koko1
+[2025-11-28 21:34:59] Scheduler executing job for client FD 4 (burst 10)
+[2025-11-28 21:34:59] Cache MISS for group 1
+[2025-11-28 21:34:59] Sent 1 history messages to client FD 4
+[2025-11-28 21:35:08] Scheduler executing job for client FD 4 (burst 6)
+[2025-11-28 21:35:08] Client 4 joined group 2
+[2025-11-28 21:35:18] Scheduler executing job for client FD 4 (burst 8)
+[2025-11-28 21:35:18] Group 2: Client 1 sent message: koko2
+[2025-11-28 21:35:30] Scheduler executing job for client FD 4 (burst 5)
+[2025-11-28 21:35:30] Cache MISS for group 2
+[2025-11-28 21:35:30] Sent 1 history messages to client FD 4

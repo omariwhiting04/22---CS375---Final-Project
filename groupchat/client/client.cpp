@@ -23,6 +23,8 @@ int main() {
     std::cout << "/send <msg>\n";
     std::cout << "/history <group>\n";
 
+    int current_group = 1;   // ⭐ The active group YOU are in
+
     while (true) {
         std::string input;
         std::getline(std::cin, input);
@@ -34,25 +36,31 @@ int main() {
         // -----------------------------
         if (input.rfind("/join", 0) == 0) {
             pkt.type = MSG_JOIN;
-            pkt.group_id = stoi(input.substr(6));
-            strcpy(pkt.payload, "join");
 
-        } else if (input.rfind("/send", 0) == 0) {
+            // Extract group number
+            current_group = stoi(input.substr(6));     // ⭐ UPDATE ACTIVE GROUP
+            pkt.group_id = current_group;
+
+            strcpy(pkt.payload, "join");
+        } 
+        
+        else if (input.rfind("/send", 0) == 0) {
             pkt.type = MSG_SEND;
 
-            // Extract message text
+            // Extract message
             std::string msg = input.substr(6);
             strcpy(pkt.payload, msg.c_str());
 
-            // Default to group 1 unless user joined another
-            // (Can be expanded to track active group)
-            pkt.group_id = 1;
-
-        } else if (input.rfind("/history", 0) == 0) {
+            // ⭐ Use active group
+            pkt.group_id = current_group;
+        } 
+        
+        else if (input.rfind("/history", 0) == 0) {
             pkt.type = MSG_HISTORY;
             pkt.group_id = stoi(input.substr(9));
-
-        } else {
+        } 
+        
+        else {
             std::cout << "Unknown command.\n";
             continue;
         }
@@ -61,7 +69,7 @@ int main() {
         // FINALIZE BINARY PACKET
         // -----------------------------
         pkt.version = PROTOCOL_VERSION;
-        pkt.sender_id = 1;  // static ID for now
+        pkt.sender_id = 1;
         pkt.payload_len = strlen(pkt.payload);
         pkt.checksum = compute_checksum(pkt);
 
@@ -74,11 +82,10 @@ int main() {
         ssize_t n = read(sock, &response, sizeof(response));
 
         if (n > 0) {
-
-            // Validate response checksum
+            // Validate checksum
             uint8_t calc = compute_checksum(response);
             if (calc != response.checksum) {
-                std::cout << "[ERROR] Server response had invalid checksum.\n";
+                std::cout << "[ERROR] Invalid server checksum.\n";
                 continue;
             }
 

@@ -17,6 +17,10 @@
 
 #include "../shared/protocol.h"
 #include "../shared/utils.h"
+#include "performance.cpp"
+
+PerformanceMetrics metrics;
+
 
 LogManager logger("logs/chat_log.txt");
 
@@ -49,6 +53,9 @@ void send_packet(int fd, Packet &pkt) {
 // ---------------------------
 
 void process_packet(Packet pkt, int client_socket) {
+
+
+   
 
     switch (pkt.type) {
 
@@ -88,6 +95,9 @@ void process_packet(Packet pkt, int client_socket) {
            ": Client " + std::to_string(pkt.sender_id) + 
            " sent message: " + msg.text);
 
+           metrics.log_message_sent();
+
+
 
             // Broadcast to group members
             auto members = groupManager.get_members(pkt.group_id);
@@ -120,8 +130,10 @@ void process_packet(Packet pkt, int client_socket) {
     bool hit = cache.get(pkt.group_id, history);
 
     if (hit) {
+        metrics.log_cache_hit();
         logger.log("Cache HIT for group " + std::to_string(pkt.group_id));
     } else {
+        metrics.log_cache_miss();
         logger.log("Cache MISS for group " + std::to_string(pkt.group_id));
         history = groupManager.get_history(pkt.group_id);
         cache.put(pkt.group_id, history);
@@ -170,11 +182,25 @@ void process_packet(Packet pkt, int client_socket) {
 
 void worker_thread() {
     while (true) {
-        // RR scheduler pops the next job
+        // get_next_job() BLOCKS until a job is available.
         Job job = scheduler.get_next_job();
+
+        logger.log("Scheduler executing job for client FD " +
+                   std::to_string(job.client_fd) +
+                   " (burst " + std::to_string(job.burst_time) + ")");
+
+        // Update performance metrics
+        metrics.log_job(job.burst_time);
+
+        // Execute the job
         job.task();
+
+        // Update performance metrics file LIVE
+        metrics.write_report("logs/performance_metrics.txt");
     }
 }
+
+
 
 // ---------------------------
 // Client Handler
@@ -259,6 +285,7 @@ int main() {
     std::cout << "Server running with ROUND ROBIN scheduler..." << std::endl;
 
     while (true) {
+        
         int client = accept(server_fd, nullptr, nullptr);
         pool.enqueue([client] {
             handle_client(client);
@@ -267,5 +294,7 @@ int main() {
 
     worker1.join();
     worker2.join();
+    metrics.write_report("logs/performance_metrics.txt");
     return 0;
+
 }
